@@ -1,0 +1,37 @@
+<div class="container">
+
+  <div class="search-container">
+    <div *ngIf="!selectedElement" class="search-not-selected-container">
+      <input [ngModel]="inputModel" (ngModelChange)="searchChanged($event)" type="text" />
+      <button [disabled]="!inputModel" (click)="clearSearch()">Wyczyść</button>
+    </div>
+
+    <div
+      *ngIf="selectedElement"
+      class="search-selected-container"
+    >
+      <ng-container
+        [ngTemplateOutlet]="resultTemplate"
+        [ngTemplateOutletContext]="{ element: selectedElement }"
+      ></ng-container>
+      <button [disabled]="!selectedElement" (click)="removeSelection()">Anuluj</button>
+    </div>
+
+  </div>
+
+  <ul
+    *ngIf="!selectedElement && inputModel"
+    class="search-results-container"
+  >
+    <li
+      *ngFor="let element of matchedResults"
+      (click)="selectElement(element)"
+    >
+      <ng-container
+        [ngTemplateOutlet]="resultTemplate"
+        [ngTemplateOutletContext]="{ element: element }"
+      ></ng-container>
+    </li>
+  </ul>
+
+</div>
